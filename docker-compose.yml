@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - shared-net
+
+  mysqldb:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lib
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - shared-net
+    volumes:
+      - ./mysql/data:/backup
+
+  app:
+    image: lib
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysqldb
+      - localstack
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/lib?useSSL=false&allowPublicKeyRetrieval=true
+      - SERVER_PORT=8082
+      - spring.redis.host=redis
+      - spring.redis.port=6379
+      - spring.datasource.username=root
+      - spring.datasource.password=root
+      - cloud.aws.secrets-manager.end-point.uri=http://localstack:4566
+    restart: "no"
+    networks:
+      - shared-net
+
+
+  localstack:
+    image: localstack/localstack:latest
+    hostname: localstack
+    environment:
+      - SERVICES=s3,secretsmanager
+      - EDGE_PORT=4566
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=eu-west-3
+      - HOSTNAME_EXTERNAL=localstack
+    ports:
+      - '4566-4597:4566-4597'
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    driver: bridge
+
+
+
+

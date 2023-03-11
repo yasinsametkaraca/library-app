@@ -1,0 +1,15 @@
+insert into category (id, name)  values (1, 'Research - History');
+insert into category (id, name)  values (2, 'Science');
+insert into category (id, name)  values (3, 'Comic');
+insert into category (id, name)  values (4, 'Child and youth');
+insert into category (id, name)  values (5, 'Lesson and Test books');
+insert into category (id, name)  values (6, 'Religion');
+insert into category (id, name)  values (7, 'Literature');
+insert into category (id, name)  values (8, 'Education');
+insert into category (id, name)  values (9, 'Philosophy');
+insert into category (id, name)  values (10, 'Foreign Languages');
+insert into category (id, name)  values (11, 'Hobby');
+insert into category (id, name)  values (12, 'Humor');
+insert into category (id, name)  values (13, 'Art Design');
+insert into category (id, name)  values (14, 'Audio Books');
+insert into category (id, name)  values (15, 'Other');
