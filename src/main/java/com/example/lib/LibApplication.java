@@ -18,9 +18,9 @@ public class LibApplication {
         SpringApplication.run(LibApplication.class, args);
     }
 
-
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
+
 }

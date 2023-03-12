@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {  //herhangi yere authentication olmadan geldiğimizde 401 dönmesi için custom error mesajımızla birlikte..
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getOutputStream().println("{ \"error\": \"" + authException.getMessage() + "\" }");
-
     }
 }

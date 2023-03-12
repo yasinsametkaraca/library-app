@@ -25,7 +25,6 @@ import java.util.Map;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenService jwtTokenService;
-
     private final UserDetailsServiceImpl jwtUserDetailsService;
 
     public JwtFilter(TokenService jwtTokenService, UserDetailsServiceImpl jwtUserDetailsService) {
@@ -34,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {  //araya kendi filterimizi ekledim.
         String token = getToken(request);
         String username;
         try {
@@ -57,13 +56,13 @@ public class JwtFilter extends OncePerRequestFilter {
         if (header == null || !header.startsWith("Bearer ")) {
             return "";
         }
-        return header.substring(7);
+        return header.substring(7);  //headerdan tokeni alırız.
     }
 
 
     private void sendError(HttpServletResponse res, Exception e) throws IOException {
         res.setContentType("application/json");
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();  //respondu json şeklinde göstermek için map oluşturduk.
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         errors.put("error", e.getMessage());
         ObjectMapper mapper = new ObjectMapper();

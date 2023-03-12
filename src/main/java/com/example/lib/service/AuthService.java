@@ -27,26 +27,23 @@ import java.lang.reflect.InvocationTargetException;
 @RequiredArgsConstructor
 public class AuthService{
 
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;  //
     private final UserService userService;
     private final TokenService tokenService;
-
     private final PasswordEncoder encoder;
 
     public TokenResponseDTO login(LoginRequest loginRequest) {
         try {
-            Authentication auth = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
             return TokenResponseDTO
                     .builder()
                     .accessToken(tokenService.generateToken(auth))
                     .user(userService.findUser(loginRequest.getUsername()))
                     .build();
         } catch (final BadCredentialsException badCredentialsException) {
-            throw GenericException.builder().httpStatus(HttpStatus.NOT_FOUND).errorCode(ErrorCode.USER_NOT_FOUND).errorMessage("Invalid Username or Password").build();
+            throw GenericException.builder().httpStatus(HttpStatus.UNAUTHORIZED).errorCode(ErrorCode.UNAUTHORIZED).errorMessage("Invalid Username or Password").build();
         }
     }
-
 
     @Transactional
     public UserDto signup(SignUpRequest signUpRequest){

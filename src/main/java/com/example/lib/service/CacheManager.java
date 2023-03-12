@@ -16,7 +16,6 @@ public class CacheManager implements CacheClient {
         pool = new JedisPool(poolConfig, host, port, DEFAULT_TIMEOUT);
     }
 
-
     @Override
     public void set(String key, Object value) {
 

@@ -31,9 +31,9 @@ public class OpenApiConfig {
                                                 .bearerFormat("JWT")
                                 )
                 )
-                .info(new Info().title("ECOMMERCE API")
+                .info(new Info().title("Library API")
                         .version(version)
                         .description(description)
-                        .license(new License().name("BLOG API Licence")));
+                        .license(new License().name("API Licence")));
     }
 }

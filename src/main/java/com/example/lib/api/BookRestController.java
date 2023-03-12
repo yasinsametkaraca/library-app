@@ -33,7 +33,7 @@ public class BookRestController {
 
     @GetMapping("/search")
     public ResponseEntity<List<BookResponse>> listBook(@RequestParam(name = "size") int size, @RequestParam(name = "page") int page) {
-        final Long userID = userService.findUserInContext().getId();
+        final Long userID = userService.findUserInContext().getId();  //authenticate olmuş kullanıcının bilgisiyle alıyoruz.
         return ResponseEntity.ok(bookListService.listBooks(size, page, userID));
     }
 
@@ -41,19 +41,19 @@ public class BookRestController {
     @GetMapping("/search/{categoryType}")
     public ResponseEntity<List<BookResponse>> listByCategory(@PathVariable CategoryType categoryType) {
         final Long userID = userService.findUserInContext().getId();
-        return ResponseEntity.ok(this.bookListService.searchByCategory(categoryType, userID));
+        return ResponseEntity.ok(bookListService.searchByCategory(categoryType, userID));
     }
 
 
     @GetMapping("/{status}")
     public ResponseEntity<List<BookResponse>> listByCategory(@PathVariable BookStatus status) {
         final Long userID = userService.findUserInContext().getId();
-        return ResponseEntity.ok(this.bookListService.searchBookStatus(status, userID));
+        return ResponseEntity.ok(bookListService.searchBookStatus(status, userID));
     }
 
     @GetMapping("/list/{title}")
     public ResponseEntity<List<BookResponse>> listByTitle(@PathVariable String title) {
-        return ResponseEntity.ok(this.bookListService.searchByTitle(title));
+        return ResponseEntity.ok(bookListService.searchByTitle(title));
     }
 
     @DeleteMapping("/delete/{bookId}")

@@ -34,13 +34,14 @@ public class TokenService {
                 .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + (EXPIRES_ACCESS_TOKEN_MINUTE * 60 * 1000)))
                 .withIssuer(ISSUER)
+                /*.withClaim("email","ysk@gmail.com") //ek eklenecek bilgi*/
                 .sign(Algorithm.HMAC256(KEY.getBytes()));
+
     }
 
-
-    public DecodedJWT verifyJWT(String token) {
+    public DecodedJWT verifyJWT(String token) {  //DecodedJWT dönücez yani çözümlenmiş token dönücek
         Algorithm algorithm = Algorithm.HMAC256(KEY.getBytes());
-        JWTVerifier verifier = JWT.require(algorithm).acceptExpiresAt(20).build();
+        JWTVerifier verifier = JWT.require(algorithm).acceptExpiresAt(20).build();  //acceptExpiresAt demek tokenin süresi geçmiş olsa dahi 20 saniye daha kabul et.
         try {
             return verifier.verify(token);
         } catch (Exception e) {

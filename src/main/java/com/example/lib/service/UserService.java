@@ -33,8 +33,7 @@ public class UserService {
     }
 
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(notFoundUser(HttpStatus.NOT_FOUND));
+        return userRepository.findByUsername(username).orElseThrow(notFoundUser(HttpStatus.NOT_FOUND));
     }
 
     public UserDto findUser(String username) {
@@ -52,8 +51,8 @@ public class UserService {
         return findUser(details.getUsername());
     }
 
-    private static Supplier<GenericException> notFoundUser(HttpStatus unauthorized) {
-        return () -> GenericException.builder().httpStatus(unauthorized).errorMessage("user not found!").build();
+    private static Supplier<GenericException> notFoundUser(HttpStatus httpStatus) {
+        return () -> GenericException.builder().httpStatus(httpStatus).errorMessage("User not found.").build();
     }
 
     public Boolean existsByUsername(String username){
