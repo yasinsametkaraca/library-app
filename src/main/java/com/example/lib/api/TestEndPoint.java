@@ -15,19 +15,23 @@ public class TestEndPoint {  //spring security deneme controller
     public String adminEndPoint(){
         return "admin";
     }
+
     @GetMapping("/user")
     public String user(){
         return "user";
     }
+
     @GetMapping("/public")
     public String publicController(){
         return "public";
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/justadmin")
     public String justAdmin(){
         return "justAdmin";
     }
+
     @GetMapping("/username")
     public String getMyself(){ //o an login olan kullanıcının bilgilerini SecurityContextHolder ile birlikte bulabiliriz.
         return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername().toString();

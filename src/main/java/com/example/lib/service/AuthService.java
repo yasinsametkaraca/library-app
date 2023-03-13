@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 @RequiredArgsConstructor
 public class AuthService{
 
-    private final AuthenticationManager authenticationManager;  //
+    private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final TokenService tokenService;
     private final PasswordEncoder encoder;
@@ -67,6 +67,5 @@ public class AuthService{
                 .username(fromDb.getUsername())
                 .role(fromDb.getRole())
                 .build();
-
     }
 }

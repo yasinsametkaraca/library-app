@@ -4,6 +4,7 @@ package com.example.lib.configure;
 import com.example.lib.security.JWTAccessDeniedHandler;
 import com.example.lib.security.JwtAuthenticationEntryPoint;
 import com.example.lib.security.JwtFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,17 +25,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)  //buraya admin erişsin sadece diye bir implementasyon eklersek bunu yazıyoruz.
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private final JWTAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JWTAccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(JwtFilter jwtFilter, JwtAuthenticationEntryPoint authenticationEntryPoint, JWTAccessDeniedHandler jwtAccessDeniedHandler) {
-        this.jwtFilter = jwtFilter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration) throws Exception {  //loginde usernamedan useri bulucak ve dbdeki password ile girilen passwordu match eder.
@@ -59,7 +56,7 @@ public class SecurityConfig {
                 })
                 .formLogin().disable()
                 .httpBasic().disable()
-                .exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -70,7 +67,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {  //public olarak açacağımız endpointleri tanımladık.
-        return (web) -> web.ignoring().antMatchers("/api/public", "/api/auth/login","/api/auth/signup","/**");
+        return (web) -> web.ignoring().antMatchers("/api/public", "/api/auth/login","/api/auth/signup");
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {  //bütün methodları gelen isteklere cors a izin ver diyoruz. ama deployment için.
