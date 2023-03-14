@@ -3,7 +3,7 @@ image: maven:3.6.3-jdk-11
 pipelines:
   default:
     - step:
-        name: Testleri kosuyoruz
+        name: Test dahil
         size: 2x
         caches:
           - maven

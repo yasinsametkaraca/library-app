@@ -2,7 +2,6 @@ FROM openjdk:11
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} lib-0.0.1-SNAPSHOT.jar
 
-
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip
 RUN ./aws/install
 
